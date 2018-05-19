@@ -12,13 +12,17 @@ import java.awt.event.ActionListener;
  */
 public class GUI extends javax.swing.JPanel {
 
-    private static final int DELAY = 100;
+    private static final int DELAY = 30;
+
+    Point panelSize = new Point(1000, 750);
+
+    Controller c;
 
     public GUI() {
 
-        ActionListener taskPerformer = evt -> {
-            repaint();
-        };
+        c = new Controller(panelSize);
+
+        ActionListener taskPerformer = evt -> repaint();
 
         Timer timer = new Timer(DELAY, taskPerformer);
         timer.start();
@@ -27,8 +31,17 @@ public class GUI extends javax.swing.JPanel {
 
     @Override
     public void paintComponent(Graphics g){
-        g.setColor(new Color(255, 255, 255));
-        g.fillRect(0,0,10,10);
+        paintBackground(g);
+        paintForeground(g);
+    }
+
+    private void paintForeground(Graphics g) {
+        c.drawAll(g);
+    }
+
+    private void paintBackground(Graphics g){
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,this.getWidth(), this.getHeight());
     }
 
 }
