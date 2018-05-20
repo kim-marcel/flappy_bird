@@ -35,6 +35,8 @@ public class Controller {
     public void drawAll(Graphics g){
         drawPipes(g);
         drawBird(g);
+
+        collisionDetection();
     }
 
     private void drawPipes(Graphics g){
@@ -52,6 +54,12 @@ public class Controller {
         if (toRemove != null) {
             pipes.remove(toRemove);
             addNewPipe();
+        }
+    }
+
+    private void collisionDetection() {
+        for (Pipe pipe : pipes) {
+            pipe.detectCollisionWithBird(bird);
         }
     }
 

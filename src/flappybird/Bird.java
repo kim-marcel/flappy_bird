@@ -9,11 +9,12 @@ public class Bird {
     private static final int LIFT = -6;
     private static final double GRAVITY = 0.2;
 
-    private double velocity = 0;
     private double positionY;
+    private double velocity;
 
     public Bird(Point panelSize){
         this.positionY = panelSize.y / 2;
+        this.velocity = 0;
     }
 
     public void draw(Graphics g, Point panelSize){
@@ -40,5 +41,17 @@ public class Bird {
 
     public void fly(){
         velocity = LIFT;
+    }
+
+    public int getPositionX() {
+        return POSITION_X;
+    }
+
+    public int getRadius() {
+        return RADIUS;
+    }
+
+    public double getPositionY() {
+        return positionY;
     }
 }

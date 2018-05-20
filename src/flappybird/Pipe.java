@@ -8,7 +8,7 @@ public class Pipe {
     Random r = new Random();
 
     private static final int WIDTH = 50;
-    private static final int SPACE = 150;
+    private static final int SPACE = 200;
     private static final int STEP_SIZE = 2; // pixels by which the pipe will move every frame
 
     private int positionX;
@@ -34,6 +34,21 @@ public class Pipe {
         return positionX + WIDTH <= 0;
     }
 
+    public void detectCollisionWithBird(Bird bird) {
+        Point birdPosition = new Point (bird.getPositionX(), (int) bird.getPositionY());
+        int birdRadius = bird.getRadius();
+
+        // Check for X-Coordinate
+        if (birdPosition.x + birdRadius >= positionX && birdPosition.x - birdRadius <= positionX + WIDTH){
+
+            // Check for Y-Coordiante
+            if (birdPosition.y - birdRadius <= spaceHeight || birdPosition.y + birdRadius >= spaceHeight + SPACE) {
+                System.out.println("Collision");
+            }
+
+        }
+    }
+
     public int getPositionX() {
         return positionX;
     }
@@ -41,4 +56,5 @@ public class Pipe {
     public void setPositionX(int positionX) {
         this.positionX = positionX;
     }
+
 }
