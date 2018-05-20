@@ -12,12 +12,15 @@ public class Controller {
     private Bird bird;
 
     private Point panelSize;
+    private int score;
 
     public Controller(Point panelSize){
         this.panelSize = panelSize;
 
         pipes = new ArrayList<>();
         bird = new Bird(panelSize);
+
+        score = 0;
 
         initializePipes();
     }
@@ -37,6 +40,8 @@ public class Controller {
         drawBird(g);
 
         collisionDetection();
+
+        drawScore(g);
     }
 
     private void drawPipes(Graphics g){
@@ -57,14 +62,24 @@ public class Controller {
         }
     }
 
-    private void collisionDetection() {
-        for (Pipe pipe : pipes) {
-            pipe.detectCollisionWithBird(bird);
-        }
-    }
-
     private void drawBird(Graphics g) {
         bird.draw(g, panelSize);
+    }
+
+    private void drawScore(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.drawString("Score: " + score, 25,25);
+    }
+
+    private void collisionDetection() {
+        for (Pipe pipe : pipes) {
+            if (pipe.passedByBird(bird)) {
+                score ++;
+            }
+            if (pipe.detectCollisionWithBird(bird)){
+                score = 0;
+            }
+        }
     }
 
     private void addNewPipe(){

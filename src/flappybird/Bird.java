@@ -28,6 +28,14 @@ public class Bird {
         velocity += GRAVITY;
         positionY += velocity;
 
+        stayInBoundaries(panelSize);
+    }
+
+    public void fly(){
+        velocity = LIFT;
+    }
+
+    private void stayInBoundaries(Point panelSize) {
         if (positionY >= panelSize.y - RADIUS) {
             positionY = panelSize.y - RADIUS;
             velocity = 0;
@@ -37,10 +45,6 @@ public class Bird {
             positionY = RADIUS;
             velocity = 0;
         }
-    }
-
-    public void fly(){
-        velocity = LIFT;
     }
 
     public int getPositionX() {
