@@ -1,19 +1,23 @@
 package flappybird;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class Controller {
 
-    private ArrayList<Pipe> pipes;
-
     private static final int SPACE = 300;
+
+    private ArrayList<Pipe> pipes;
+    private Bird bird;
+
     private Point panelSize;
 
     public Controller(Point panelSize){
         this.panelSize = panelSize;
 
         pipes = new ArrayList<>();
+        bird = new Bird(panelSize);
 
         initializePipes();
     }
@@ -29,6 +33,11 @@ public class Controller {
     }
 
     public void drawAll(Graphics g){
+        drawPipes(g);
+        drawBird(g);
+    }
+
+    private void drawPipes(Graphics g){
         Pipe toRemove = null;
 
         for (Pipe pipe : pipes) {
@@ -44,8 +53,10 @@ public class Controller {
             pipes.remove(toRemove);
             addNewPipe();
         }
+    }
 
-        System.out.println(pipes.size());
+    private void drawBird(Graphics g) {
+        bird.draw(g, panelSize);
     }
 
     private void addNewPipe(){
@@ -54,4 +65,9 @@ public class Controller {
         pipes.add(new Pipe(positionX, panelSize));
     }
 
+    public void keyPressed(KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE){
+            bird.fly();
+        }
+    }
 }
