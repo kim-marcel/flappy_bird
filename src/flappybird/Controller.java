@@ -6,15 +6,17 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    private static final int SPACE = 300;
+    private static final int SPACE = 200;
 
     private ArrayList<Pipe> pipes;
     private Bird bird;
 
+    private Pipe currentPipe;
+
     private Point panelSize;
     private int score;
 
-    public Controller(Point panelSize){
+    public Controller(Point panelSize) {
         this.panelSize = panelSize;
 
         pipes = new ArrayList<>();
@@ -33,18 +35,33 @@ public class Controller {
             pipes.add(new Pipe(positionX, panelSize));
             positionX += SPACE;
         }
+
+        currentPipe = pipes.get(0);
     }
 
-    public void drawAll(Graphics g){
+    public void drawAll(Graphics g) {
         drawPipes(g);
         drawBird(g);
 
+        findCurrentPipe();
         collisionDetection();
 
         drawScore(g);
     }
 
-    private void drawPipes(Graphics g){
+    private void findCurrentPipe() {
+        int birdPositionX = bird.getPositionX();
+        int birdRadius = bird.getRadius();
+
+        for (Pipe pipe : pipes) {
+            if (pipe.getPositionX() + pipe.getWidth() >= birdPositionX - birdRadius) {
+                currentPipe = pipe;
+                return;
+            }
+        }
+    }
+
+    private void drawPipes(Graphics g) {
         Pipe toRemove = null;
 
         for (Pipe pipe : pipes) {
@@ -68,28 +85,27 @@ public class Controller {
 
     private void drawScore(Graphics g) {
         g.setColor(Color.GREEN);
-        g.drawString("Score: " + score, 25,25);
+        g.drawString("Score: " + score, 25, 25);
     }
 
     private void collisionDetection() {
-        for (Pipe pipe : pipes) {
-            if (pipe.passedByBird(bird)) {
-                score ++;
-            }
-            if (pipe.detectCollisionWithBird(bird)){
-                score = 0;
-            }
+        if (currentPipe.passedByBird(bird)) {
+            score++;
+        }
+
+        if (currentPipe.detectCollisionWithBird(bird)) {
+            score = 0;
         }
     }
 
-    private void addNewPipe(){
+    private void addNewPipe() {
         int positionX = pipes.get(pipes.size() - 1).getPositionX() + SPACE;
 
         pipes.add(new Pipe(positionX, panelSize));
     }
 
     public void keyPressed(KeyEvent evt) {
-        if (evt.getKeyCode() == KeyEvent.VK_SPACE){
+        if (evt.getKeyCode() == KeyEvent.VK_SPACE) {
             bird.fly();
         }
     }

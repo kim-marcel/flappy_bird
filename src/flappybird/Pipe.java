@@ -57,4 +57,7 @@ public class Pipe {
         return positionX;
     }
 
+    public int getWidth() {
+        return WIDTH;
+    }
 }
