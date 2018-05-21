@@ -13,14 +13,16 @@ public class Pipe {
 
     private int positionX;
     private int spaceHeight;
+    private Color color;
 
-    public Pipe(int positionX, Point panelSize){
+    public Pipe(int positionX, Point panelSize, Color color){
         this.positionX = positionX;
         spaceHeight = r.nextInt(panelSize.y - SPACE); // Height on which the space will begin
+        this.color = color;
     }
 
     public void draw(Graphics g, Point panelSize){
-        g.setColor(new Color(255, 255, 255));
+        g.setColor(color);
 
         g.fillRect(positionX,0, WIDTH, spaceHeight);
         g.fillRect(positionX, spaceHeight + SPACE, WIDTH, panelSize.y - SPACE - spaceHeight);

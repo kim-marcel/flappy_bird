@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 
 /**
@@ -19,10 +20,25 @@ public class GUI extends javax.swing.JPanel {
 
     Controller c;
 
+    Random random = new Random();
+
+    Color backgroundColor;
+    Color color;
+
     public GUI(Point panelSize) {
         this.panelSize = panelSize;
 
-        c = new Controller(this.panelSize);
+        float red = random.nextFloat();
+        float green = random.nextFloat();
+        float blue = random.nextFloat();
+
+        double a = 1 - ( 0.299 * red * 255 + 0.587 * green * 255 + 0.114 * blue * 255)/255;
+
+        color = a < 0.5 ? Color.BLACK : Color.WHITE;
+
+        c = new Controller(this.panelSize, color);
+
+        backgroundColor = new Color(red, green, blue);
 
         ActionListener taskPerformer = evt -> repaint();
 
@@ -42,7 +58,7 @@ public class GUI extends javax.swing.JPanel {
     }
 
     private void paintBackground(Graphics g){
-        g.setColor(Color.BLACK);
+        g.setColor(backgroundColor);
         g.fillRect(0,0,this.getWidth(), this.getHeight());
     }
 

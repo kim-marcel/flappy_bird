@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Controller {
 
-    private static final int SPACE = 200;
+    private static final int SPACE = 250;
 
     private ArrayList<Pipe> pipes;
     private Bird bird;
@@ -16,14 +16,17 @@ public class Controller {
     private Point panelSize;
     private int score;
 
-    public Controller(Point panelSize) {
+    private Color color;
+
+    public Controller(Point panelSize, Color color) {
         this.panelSize = panelSize;
 
         pipes = new ArrayList<>();
-        bird = new Bird(panelSize);
+        bird = new Bird(panelSize, color);
 
         score = 0;
 
+        this.color = color;
         initializePipes();
     }
 
@@ -32,7 +35,7 @@ public class Controller {
         int numberOfPipes = panelSize.x / SPACE + 1;
 
         for (int i = 0; i < numberOfPipes; i++) {
-            pipes.add(new Pipe(positionX, panelSize));
+            pipes.add(new Pipe(positionX, panelSize, color));
             positionX += SPACE;
         }
 
@@ -84,8 +87,15 @@ public class Controller {
     }
 
     private void drawScore(Graphics g) {
-        g.setColor(Color.GREEN);
-        g.drawString("Score: " + score, 25, 25);
+        Color outline = color == Color.BLACK ? Color.WHITE : Color.BLACK;
+        g.setFont(new Font("Calibri", Font.BOLD, 30));
+        g.setColor(outline);
+        g.drawString("Score: " + score, 25 - 1, 35 + 1);
+        g.drawString("Score: " + score, 25 - 1, 35 - 1);
+        g.drawString("Score: " + score, 25 + 1, 35 + 1);
+        g.drawString("Score: " + score, 25 + 1, 35 - 1);
+        g.setColor(color);
+        g.drawString("Score: " + score, 25, 35);
     }
 
     private void collisionDetection() {
@@ -101,7 +111,7 @@ public class Controller {
     private void addNewPipe() {
         int positionX = pipes.get(pipes.size() - 1).getPositionX() + SPACE;
 
-        pipes.add(new Pipe(positionX, panelSize));
+        pipes.add(new Pipe(positionX, panelSize, color));
     }
 
     public void keyPressed(KeyEvent evt) {

@@ -12,13 +12,22 @@ public class Bird {
     private double positionY;
     private double velocity;
 
-    public Bird(Point panelSize){
+    Color color;
+
+    public Bird(Point panelSize, Color color){
         this.positionY = panelSize.y / 2;
         this.velocity = 0;
+        this.color = color;
     }
 
     public void draw(Graphics g, Point panelSize){
-        g.setColor(Color.RED);
+        Color background = color == Color.BLACK ? Color.WHITE : Color.BLACK;
+        g.setColor(background);
+        g.fillOval(POSITION_X - RADIUS - 1, (int) (positionY - RADIUS) + 1, RADIUS * 2, RADIUS * 2);
+        g.fillOval(POSITION_X - RADIUS - 1, (int) (positionY - RADIUS) - 1, RADIUS * 2, RADIUS * 2);
+        g.fillOval(POSITION_X - RADIUS + 1, (int) (positionY - RADIUS) + 1, RADIUS * 2, RADIUS * 2);
+        g.fillOval(POSITION_X - RADIUS + 1, (int) (positionY - RADIUS) - 1, RADIUS * 2, RADIUS * 2);
+        g.setColor(color);
         g.fillOval(POSITION_X - RADIUS, (int) (positionY - RADIUS), RADIUS * 2, RADIUS * 2);
 
         update(panelSize);
